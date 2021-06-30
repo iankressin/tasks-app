@@ -1,5 +1,6 @@
 package com.unisul.tasklist
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,14 +9,11 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import android.util.Log
 import android.widget.*
+import com.unisul.tasklist.dao.TaskDao
 import com.unisul.tasklist.helpers.stringToDate
 import com.unisul.tasklist.helpers.stringToPriorityType
 import com.unisul.tasklist.models.Task
 
-
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class FirstFragment : Fragment() {
     lateinit var name: String;
     lateinit var description: String;
@@ -24,6 +22,8 @@ class FirstFragment : Fragment() {
 
     lateinit var radioGroup: RadioGroup;
     lateinit var errorTextView: TextView;
+
+    var taskDao = TaskDao
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -36,18 +36,36 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.findViewById<Button>(R.id.voltar).setOnClickListener{
+            this.navigateToList();
+        }
+
         view.findViewById<Button>(R.id.cadastrar).setOnClickListener {
 //            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-
             errorTextView = view.findViewById(R.id.formError)
 
             try {
                 var task = newTask(view)
 
+                taskDao.addTask(task);
+
+                taskDao.getTasks().forEach {
+                    Log.d("TASK LIST", it.toString());
+                }
+
+                this.navigateToList();
+
                 errorTextView.text = ""
             } catch (err: java.lang.Error) {
                 errorTextView.text = err.message
             }
+        }
+    }
+
+    private fun navigateToList() {
+        activity?.let {
+            val intent = Intent(it, TaskList::class.java);
+            it.startActivity(intent);
         }
     }
 

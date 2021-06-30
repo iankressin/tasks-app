@@ -8,24 +8,38 @@
 
     <Button
         android:id="@+id/cadastrar"
-        android:layout_width="246dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="64dp"
+        android:layout_width="133dp"
+        android:layout_height="44dp"
         android:text="@string/cadastrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.612"
+        app:layout_constraintStart_toEndOf="@+id/voltar"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.339" />
+
+    <Button
+        android:id="@+id/voltar"
+        android:layout_width="133dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/voltar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.073" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="340dp"
         android:layout_height="420dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginTop="92dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/cadastrar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <TextView
             android:id="@+id/name"
