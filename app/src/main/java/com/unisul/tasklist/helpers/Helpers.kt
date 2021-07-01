@@ -21,3 +21,7 @@ fun stringToDate(string: String): LocalDate {
 
     return parsedDate
 }
+
+fun dateToString(date: LocalDate): String {
+    return date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString()
+}

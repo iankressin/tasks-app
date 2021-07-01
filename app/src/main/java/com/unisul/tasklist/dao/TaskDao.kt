@@ -24,6 +24,10 @@ object TaskDao {
         return list
     }
 
+    fun getTask(id: Int): Task {
+        return this.list[id];
+    }
+
     fun addTask(task: Task) {
         list.add(task)
     }

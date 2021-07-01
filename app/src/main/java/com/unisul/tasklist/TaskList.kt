@@ -1,15 +1,13 @@
 package com.unisul.tasklist
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ListView
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.unisul.tasklist.dao.TaskDao
 
@@ -37,17 +35,17 @@ class TaskList : AppCompatActivity() {
 
         listView.adapter = adapter
 
-        listView.onItemClickListener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+        listView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
                 val itemValue = listView.getItemAtPosition(position) as String
 
-                Log.d("Item clicked", position.toString())
+                Log.d("Item clicked", position.toString());
+
+                val intent = Intent(this@TaskList, CreateTask::class.java);
+
+                intent.putExtra("taskId", position.toString());
+
+                startActivity(intent);
             }
-        }
     }
 }

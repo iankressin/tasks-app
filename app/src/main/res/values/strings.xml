@@ -101,4 +101,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="voltar">Voltar</string>
+    <string name="title_activity_main2">MainActivity</string>
 </resources>

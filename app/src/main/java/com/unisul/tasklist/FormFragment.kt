@@ -2,19 +2,21 @@ package com.unisul.tasklist
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import android.util.Log
 import android.widget.*
 import com.unisul.tasklist.dao.TaskDao
+import com.unisul.tasklist.helpers.dateToString
 import com.unisul.tasklist.helpers.stringToDate
 import com.unisul.tasklist.helpers.stringToPriorityType
 import com.unisul.tasklist.models.Task
+import kotlinx.android.synthetic.main.fragment_first.view.*
 
-class FirstFragment : Fragment() {
+class FormFragment : Fragment() {
     lateinit var name: String;
     lateinit var description: String;
     lateinit var dueDate: String;
@@ -23,18 +25,47 @@ class FirstFragment : Fragment() {
     lateinit var radioGroup: RadioGroup;
     lateinit var errorTextView: TextView;
 
+    lateinit var parentView: View;
+
+    var taskId: Int? = null;
+
     var taskDao = TaskDao
+
+    companion object {
+        const val ARG_NAME = "taskId"
+
+        fun newInstance(taskId: String): FormFragment {
+            val fragment = FormFragment()
+
+            val bundle = Bundle().apply {
+                putString(ARG_NAME, taskId)
+            }
+
+            fragment.arguments = bundle
+
+            return fragment
+        }
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        this.taskId = arguments?.getString(ARG_NAME)?.toInt() ?: null
+
         return inflater.inflate(R.layout.fragment_first, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        this.parentView = view
+
+        val x= arguments?.getString(ARG_NAME)?.toInt() ?: null
+
+        Log.d("TASKK ID: ", x.toString())
+
+        this.taskId?.let { populateFields(it) }
 
         view.findViewById<Button>(R.id.voltar).setOnClickListener{
             this.navigateToList();
@@ -42,23 +73,62 @@ class FirstFragment : Fragment() {
 
         view.findViewById<Button>(R.id.cadastrar).setOnClickListener {
 //            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-            errorTextView = view.findViewById(R.id.formError)
+            this.handleNewTask()
+            Log.d("X ", x.toString())
+//            it.
+//            this.taskId?.let { handleUpdateTask(view, it) }
 
-            try {
-                var task = newTask(view)
+//
+        }
+    }
 
-                taskDao.addTask(task);
+    fun handleNewTask() {
+        errorTextView = this.parentView.findViewById(R.id.formError)
 
-                taskDao.getTasks().forEach {
-                    Log.d("TASK LIST", it.toString());
-                }
+        try {
+            var task = newTask(this.parentView)
 
-                this.navigateToList();
+            taskDao.addTask(task);
 
-                errorTextView.text = ""
-            } catch (err: java.lang.Error) {
-                errorTextView.text = err.message
-            }
+            this.navigateToList();
+
+            errorTextView.text = ""
+        } catch (err: java.lang.Error) {
+            errorTextView.text = err.message
+        }
+    }
+
+    private fun populateFields(taskId: Int) {
+        val task = taskDao.getTask(taskId)
+
+//        Log.d("HANDLE UPDATE TASK", "$task")
+
+        this.parentView.findViewById<EditText>(R.id.nameField).setText(task.name)
+        this.parentView.findViewById<EditText>(R.id.descriptionField).setText(task.description)
+        this.parentView.findViewById<EditText>(R.id.dueDateField).setText(dateToString(task.dueDate))
+
+//        var radioGroup = view.findViewById<RadioGroup>(R.id.priorityField)
+
+//        radioGroup.check(0)
+
+//        var selectedRadio = view.findViewById<RadioButton>(resources.getIdentifier(view.name.toString(), task.priority.toString().toLowerCase(), "com.unisul.tasklist"))
+//        selectedRadio.isChecked = true
+    }
+
+    fun handleUpdateTask(taskId: Int) {
+        errorTextView = this.parentView.findViewById(R.id.formError)
+        Log.d("HANDLING TASK: ", taskId.toString())
+
+        try {
+            var task = newTask(this.parentView)
+
+            taskDao.updateTask(taskId, task);
+
+            this.navigateToList();
+
+            errorTextView.text = ""
+        } catch (err: java.lang.Error) {
+            errorTextView.text = err.message
         }
     }
 

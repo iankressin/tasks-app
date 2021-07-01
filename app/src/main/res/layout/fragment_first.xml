@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/form"
     android:layout_height="match_parent"
-    tools:context=".FirstFragment">
+    tools:context=".FormFragment">
 
     <Button
         android:id="@+id/cadastrar"
@@ -13,28 +14,28 @@
         android:text="@string/cadastrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.612"
+        app:layout_constraintHorizontal_bias="0.628"
         app:layout_constraintStart_toEndOf="@+id/voltar"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.339" />
+        app:layout_constraintVertical_bias="0.389" />
 
     <Button
         android:id="@+id/voltar"
         android:layout_width="133dp"
         android:layout_height="44dp"
-        android:layout_marginStart="52dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="20dp"
         android:text="@string/voltar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.073" />
+        app:layout_constraintVertical_bias="0.251" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="340dp"
         android:layout_height="420dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
@@ -64,9 +65,11 @@
             android:id="@+id/descriptionField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:ems="15"
             android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:maxLines="3" />
 
         <TextView
             android:id="@+id/dueDate"
@@ -84,7 +87,7 @@
         <RadioGroup
             android:id="@+id/priorityField"
             android:layout_width="match_parent"
-            android:layout_height="163dp">
+            android:layout_height="169dp">
 
             <TextView
                 android:id="@+id/textView4"

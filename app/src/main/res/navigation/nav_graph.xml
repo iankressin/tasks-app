@@ -7,13 +7,16 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.unisul.tasklist.FirstFragment"
+        android:name="com.unisul.tasklist.FormFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_TaskList"
+            app:destination="@id/TaskList" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -22,7 +25,18 @@
         tools:layout="@layout/fragment_second">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            android:id="@+id/action_TaskList_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TaskList"
+        android:name="com.unisul.tasklist.TaskList"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/activity_task_list">
+
+        <action
+            android:id="@+id/action_TaskList_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

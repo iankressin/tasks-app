@@ -1,20 +1,49 @@
 package com.unisul.tasklist
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import androidx.fragment.app.Fragment
+import com.unisul.tasklist.dao.TaskDao
 
-class MainActivity : AppCompatActivity() {
+class CreateTask : AppCompatActivity() {
+    var taskDao = TaskDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        var taskId = intent.getStringExtra("taskId");
+
+        val fragment = FormFragment.newInstance(taskId)
+
+        if (taskId != null) {
+            Log.d("TASK ID", "$taskId")
+
+            replaceFragment(fragment)
+        }
+
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            setContentView(R.layout.activity_task_list)
+            Log.d("DELETE: ", taskId)
+
+            taskDao.removeTask(taskId.toInt())
+
+            val intent = Intent(this, TaskList::class.java);
+            startActivity(intent);
+        }
+
+        findViewById<Button>(R.id.cadastrar).setOnClickListener {
+            if (taskId == null) {
+                fragment.handleNewTask();
+            } else {
+                fragment.handleUpdateTask(taskId.toInt())
+            }
         }
     }
 
@@ -32,5 +61,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.form, fragment)
+        transaction.commit()
     }
 }
