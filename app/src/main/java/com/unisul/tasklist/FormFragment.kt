@@ -1,5 +1,6 @@
 package com.unisul.tasklist
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -9,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.util.Log
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.unisul.tasklist.dao.TaskDao
+import com.unisul.tasklist.enums.PriorityTypes
 import com.unisul.tasklist.helpers.dateToString
 import com.unisul.tasklist.helpers.stringToDate
 import com.unisul.tasklist.helpers.isDateValid
@@ -62,10 +65,6 @@ class FormFragment : Fragment() {
 
         this.parentView = view
 
-        val x= arguments?.getString(ARG_NAME)?.toInt() ?: null
-
-        Log.d("TASKK ID: ", x.toString())
-
         this.taskId?.let { populateFields(it) }
 
         view.findViewById<Button>(R.id.voltar).setOnClickListener{
@@ -73,13 +72,7 @@ class FormFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.cadastrar).setOnClickListener {
-//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             this.handleNewTask()
-            Log.d("X ", x.toString())
-//            it.
-//            this.taskId?.let { handleUpdateTask(view, it) }
-
-//
         }
     }
 
@@ -108,12 +101,13 @@ class FormFragment : Fragment() {
         this.parentView.findViewById<EditText>(R.id.descriptionField).setText(task.description)
         this.parentView.findViewById<EditText>(R.id.dueDateField).setText(dateToString(task.dueDate))
 
-//        var radioGroup = view.findViewById<RadioGroup>(R.id.priorityField)
+        var radioGroup = this.parentView.findViewById<RadioGroup>(R.id.priorityField)
 
-//        radioGroup.check(0)
-
-//        var selectedRadio = view.findViewById<RadioButton>(resources.getIdentifier(view.name.toString(), task.priority.toString().toLowerCase(), "com.unisul.tasklist"))
-//        selectedRadio.isChecked = true
+        when(task.priority) {
+            PriorityTypes.MEDIUM -> radioGroup.check(R.id.media)
+            PriorityTypes.LOW -> radioGroup.check(R.id.baixa)
+            PriorityTypes.HIGH -> radioGroup.check(R.id.alta)
+        }
     }
 
     fun handleUpdateTask(taskId: Int) {
