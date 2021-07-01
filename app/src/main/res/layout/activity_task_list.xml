@@ -49,7 +49,7 @@
         android:id="@+id/taskList"
         android:layout_width="match_parent"
         android:layout_height="484dp"
-        android:layout_marginTop="180sp"
+        android:layout_marginTop="130sp"
         tools:layout_marginBottom="0" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

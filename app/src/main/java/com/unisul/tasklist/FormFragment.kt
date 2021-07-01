@@ -12,6 +12,7 @@ import android.widget.*
 import com.unisul.tasklist.dao.TaskDao
 import com.unisul.tasklist.helpers.dateToString
 import com.unisul.tasklist.helpers.stringToDate
+import com.unisul.tasklist.helpers.isDateValid
 import com.unisul.tasklist.helpers.stringToPriorityType
 import com.unisul.tasklist.models.Task
 import kotlinx.android.synthetic.main.fragment_first.view.*
@@ -165,7 +166,7 @@ class FormFragment : Fragment() {
     private fun validateForm(name: String, description: String, dueDate: String, priority: String): Boolean {
         if (name == null || name == "") throw Error("O campo NOME e invalido")
         if (description == null || description == "") throw Error("O campo DESCRICAO e invalido")
-        if (dueDate == null || dueDate == "") throw Error("O campo PRAZO e invalido")
+        if (dueDate == null || dueDate == "" || !isDateValid(dueDate)) throw Error("O campo PRAZO e invalido")
         if (priority == "") throw Error("O campo PRIORIDADE e invalido")
 
         return true
